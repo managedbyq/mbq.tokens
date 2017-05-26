@@ -6,15 +6,14 @@ __version__ = '0.0.1'
 with codecs.open('README.rst', 'r', 'utf-8') as f:
     readme = f.read()
 
-# TODO license
 setuptools.setup(
     name='mbq.tokens',
     long_description=readme,
     version=__version__,
-    url='https://github.com/managedbyq/mbq.metrics',
-    author='Managed by Q',
+    url='https://github.com/managedbyq/mbq.tokens',
+    author='Managed by Q, Inc.',
     author_email='open-source@managedbyq.com',
-    maintainer='Managed by Q',
+    maintainer='Managed by Q, Inc.',
     maintainer_email='open-source@managedbyq.com',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
