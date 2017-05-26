@@ -19,6 +19,7 @@ setuptools.setup(
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
@@ -30,7 +31,7 @@ setuptools.setup(
     keywords='jwt token authorization',
     packages=setuptools.find_packages(),
     install_requires=[
-        # pinned so we know exactly what's being installed
+        # pinned to avoid unintentional updates
         'cryptography==1.8.1',
         'pyjwt==1.5.0',
     ],
