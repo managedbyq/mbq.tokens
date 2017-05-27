@@ -1,6 +1,18 @@
 mbq.tokens: fool-proof token decoding
 =====================================
 
+.. image:: https://img.shields.io/pypi/v/mbq.tokens.svg
+    :target: https://pypi.python.org/pypi/mbq.tokens
+
+.. image:: https://img.shields.io/pypi/l/mbq.tokens.svg
+    :target: https://pypi.python.org/pypi/mbq.tokens
+
+.. image:: https://img.shields.io/pypi/pyversions/mbq.tokens.svg
+    :target: https://pypi.python.org/pypi/mbq.tokens
+
+.. image:: https://img.shields.io/travis/managedbyq/mbq.tokens/master.svg
+    :target: https://travis-ci.org/managedbyq/mbq.tokens
+
 Installation
 ------------
 

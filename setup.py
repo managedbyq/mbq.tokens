@@ -10,6 +10,7 @@ setuptools.setup(
     name='mbq.tokens',
     long_description=readme,
     version=__version__,
+    license='Apache 2.0',
     url='https://github.com/managedbyq/mbq.tokens',
     author='Managed by Q, Inc.',
     author_email='open-source@managedbyq.com',
