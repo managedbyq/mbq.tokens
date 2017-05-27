@@ -1,4 +1,5 @@
 import jwt
+import six
 
 from . import exceptions
 
@@ -8,13 +9,15 @@ class Decoder:
         if not public_key:
             raise exceptions.TokenError('`public_key` must be a valid public key')
 
+        err_msg = '`allowed_audiences` must be a list, tuple, or set of strings'
         if not isinstance(allowed_audiences, (list, tuple, set)):
-            raise exceptions.TokenError('`allowed_audiences` must be a list, tuple, or set')
+            raise exceptions.TokenError(err_msg)
 
-        # TODO what other heuristcs should we have to prevent people
-        # from doing bad things?
+        if any(not isinstance(aud, six.text_type) for aud in allowed_audiences):
+            raise exceptions.TokenError(err_msg)
+
         self._public_key = public_key
-        self._allowed_audiences = allowed_audiences
+        self._allowed_audiences = set(allowed_audiences)
 
     def decode(self, token):
         try:
@@ -33,9 +36,17 @@ class Decoder:
         return decoded_token
 
     def decode_header(self, header):
-        bearer, token = header.strip().split()
+        err_msg = '`header` must be a string in the form "Bearer <token>"'
 
-        if bearer.lower != 'bearer':
-            raise exceptions.TokenError('`header` must be in the form "Bearer <token>"')
+        if not isinstance(header, six.text_type):
+            raise exceptions.TokenError(err_msg)
+
+        try:
+            bearer, token = header.strip().split()
+        except ValueError:
+            raise exceptions.TokenError(err_msg)
+
+        if bearer.lower() != 'bearer':
+            raise exceptions.TokenError(err_msg)
 
         return self.decode(token)
