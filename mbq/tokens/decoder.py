@@ -13,7 +13,7 @@ class Decoder:
         if not isinstance(allowed_audiences, (list, tuple, set)):
             raise exceptions.TokenError(err_msg)
 
-        if any(not isinstance(aud, six.text_type) for aud in allowed_audiences):
+        if any(not isinstance(aud, six.string_types) for aud in allowed_audiences):
             raise exceptions.TokenError(err_msg)
 
         self._public_key = public_key
