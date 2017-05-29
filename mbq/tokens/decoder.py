@@ -38,7 +38,7 @@ class Decoder:
     def decode_header(self, header):
         err_msg = '`header` must be a string in the form "Bearer <token>"'
 
-        if not isinstance(header, six.text_type):
+        if not isinstance(header, six.string_types):
             raise exceptions.TokenError(err_msg)
 
         try:
