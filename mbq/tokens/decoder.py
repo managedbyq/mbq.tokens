@@ -27,8 +27,9 @@ class Decoder:
                 options={'verify_aud': False},
                 algorithms=['RS256'],
             )
-        except:
-            raise exceptions.TokenError('`token` could not be decoded')
+        except Exception as e:
+            msg = '`token` could not be decoded. {}'.format(e)
+            raise exceptions.TokenError(msg)
 
         if decoded_token['aud'] not in self._allowed_audiences:
             raise exceptions.TokenError('`aud` claim is not in allowed_audiences')
