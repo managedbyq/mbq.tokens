@@ -32,7 +32,7 @@ Getting started
     from mbq import tokens
 
     tokens.init(
-        public_key=settings.PUBLIC_KEY,
+        certificate=settings.FORMATTED_CERTIFICATE,
         allowed_audiences=set(settings.ALLOWED_AUDIENCES),
     )
 
