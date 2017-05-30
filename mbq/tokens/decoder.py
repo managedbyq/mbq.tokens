@@ -1,3 +1,5 @@
+from cryptography.hazmat.backends import default_backend
+from cryptography.x509 import load_pem_x509_certificate
 import jwt
 import six
 
@@ -5,9 +7,11 @@ from . import exceptions
 
 
 class Decoder:
-    def __init__(self, public_key=None, allowed_audiences=None):
-        if not public_key:
-            raise exceptions.TokenError('`public_key` must be a valid public key')
+    def __init__(self, certificate=None, allowed_audiences=None):
+        if not certificate:
+            m = ('`certificate` must be a string with proper key guards '
+                 '(i.e., -----BEGIN CERTIFICATE-----)')
+            raise exceptions.TokenError(m)
 
         err_msg = '`allowed_audiences` must be a list, tuple, or set of strings'
         if not isinstance(allowed_audiences, (list, tuple, set)):
@@ -16,7 +20,15 @@ class Decoder:
         if any(not isinstance(aud, six.string_types) for aud in allowed_audiences):
             raise exceptions.TokenError(err_msg)
 
-        self._public_key = public_key
+        try:
+            self._public_key = load_pem_x509_certificate(
+                certificate.encode(),
+                default_backend(),
+            ).public_key()
+        except Exception as e:
+            msg = '`certificate` could not be loaded as a public key. {}'.format(e)
+            raise exceptions.TokenError(msg)
+
         self._allowed_audiences = set(allowed_audiences)
 
     def decode(self, token):

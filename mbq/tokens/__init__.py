@@ -2,9 +2,9 @@ from .decoder import Decoder
 from .exceptions import TokenError  # noqa
 
 
-def init(public_key=None, allowed_audiences=None):
+def init(certificate=None, allowed_audiences=None):
     decoder = Decoder(
-        public_key=public_key,
+        certificate=certificate,
         allowed_audiences=allowed_audiences,
     )
 

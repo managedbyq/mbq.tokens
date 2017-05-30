@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from mbq import tokens
+from tests import keys
 
 
 class InitTest(TestCase):
@@ -8,7 +9,7 @@ class InitTest(TestCase):
         self.assertFalse(hasattr(tokens, 'decode'))
         self.assertFalse(hasattr(tokens, 'decode_header'))
 
-        tokens.init(public_key='test', allowed_audiences={'test'})
+        tokens.init(certificate=keys.CERTIFICATE, allowed_audiences={'test'})
 
         self.assertTrue(hasattr(tokens, 'decode'))
         self.assertTrue(hasattr(tokens, 'decode_header'))
