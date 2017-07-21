@@ -32,7 +32,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         # pinned to avoid unintentional updates
-        'cryptography==1.8.1',
+        'cryptography==2.0.0',
         'pyjwt==1.5.0',
     ],
     zip_safe=True,
