@@ -33,7 +33,7 @@ setuptools.setup(
     install_requires=[
         # pinned to avoid unintentional updates
         'cryptography==2.0.0',
-        'pyjwt==1.5.2',
+        'pyjwt==1.5.3',
     ],
     zip_safe=True,
 )
