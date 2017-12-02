@@ -31,9 +31,8 @@ setuptools.setup(
     keywords='jwt token authorization',
     packages=setuptools.find_packages(),
     install_requires=[
-        # pinned to avoid unintentional updates
-        'cryptography==2.0.0',
-        'pyjwt==1.5.3',
+        'cryptography<3.0.0',
+        'pyjwt<2.0.0',
     ],
     zip_safe=True,
 )
