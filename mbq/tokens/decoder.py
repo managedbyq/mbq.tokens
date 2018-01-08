@@ -31,7 +31,7 @@ class Decoder:
 
         self._allowed_audiences = set(allowed_audiences)
 
-    def decode(self, token):
+    def decode(self, token, verify_audience=True):
         try:
             decoded_token = jwt.decode(
                 token,
@@ -43,7 +43,7 @@ class Decoder:
             msg = '`token` could not be decoded. {}'.format(e)
             raise exceptions.TokenError(msg)
 
-        if decoded_token['aud'] not in self._allowed_audiences:
+        if verify_audience and decoded_token['aud'] not in self._allowed_audiences:
             raise exceptions.TokenError('`aud` claim is not in allowed_audiences')
 
         return decoded_token
