@@ -31,7 +31,7 @@ class Decoder:
 
         self._allowed_audiences = set(allowed_audiences)
 
-    def decode(self, token, verify_audience=True):
+    def _decode(self, token, verify_audience=True):
         try:
             decoded_token = jwt.decode(
                 token,
@@ -47,6 +47,12 @@ class Decoder:
             raise exceptions.TokenError('`aud` claim is not in allowed_audiences')
 
         return decoded_token
+
+    def decode(self, token):
+        return self._decode(token)
+
+    def decode_with_unknown_audience(self, token):
+        return self._decode(token, verify_audience=False)
 
     def decode_header(self, header):
         err_msg = '`header` must be a string in the form "Bearer <token>"'

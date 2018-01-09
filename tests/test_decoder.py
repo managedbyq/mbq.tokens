@@ -57,11 +57,10 @@ class DecoderTest(TestCase):
         with self.assertRaises(tokens.TokenError):
             decoder.decode(make_jwt(audience='different_audience'))
 
-    def test_decode_skip_verify_audience(self):
+    def test_decode_with_unknown_audience(self):
         decoder = tokens.Decoder(certificate=keys.CERTIFICATE, allowed_audiences={'test_audience'})
-        decoded_token = decoder.decode(
-            make_jwt(audience='different_audience'),
-            verify_audience=False,
+        decoded_token = decoder.decode_with_unknown_audience(
+            make_jwt(audience='different_audience')
         )
         self.assertEqual(decoded_token['aud'], 'different_audience')
         self.assertEqual(decoded_token['iss'], 'https://example.auth0.com/')
