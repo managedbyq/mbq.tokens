@@ -1,7 +1,7 @@
 import codecs
 import setuptools
 
-__version__ = '0.0.8'
+__version__ = '0.0.9'
 
 with codecs.open('README.rst', 'r', 'utf-8') as f:
     readme = f.read()
@@ -31,8 +31,8 @@ setuptools.setup(
     keywords='jwt token authorization',
     packages=setuptools.find_packages(),
     install_requires=[
-        'cryptography<3.0.0',
-        'pyjwt<2.0.0',
+        'cryptography>=2.3,<3.0.0',
+        'pyjwt>=1.6.4,<2.0.0',
     ],
     zip_safe=True,
 )
