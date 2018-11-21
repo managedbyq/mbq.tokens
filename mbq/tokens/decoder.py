@@ -1,9 +1,73 @@
+import datetime as dt
+
 import jwt
 import six
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 
 from . import exceptions
+
+
+class Token:
+    """
+    Convenience class for easy access to the fields of a JWT.
+
+    All properties use the full name of the claims specified by the
+    JWT RFC[1]. Additionally, `expires_at` is exposed as an alias to
+    `expiration_time` for consistency.
+
+    The `dict` read-only interface (`__getitem__` and `get`) are
+    provided for backwards-compatibility only; new code should use
+    the properties.
+
+    [1]: https://tools.ietf.org/html/rfc7519#section-4.1
+    """
+    def __init__(self, raw, decoded):
+        self.raw = raw
+        self._decoded = decoded
+
+    def __getitem__(self, key):
+        return self._decoded[key]
+
+    def get(self, key, default=None):
+        return self._decoded.get(key, default)
+
+    @property
+    def issuer(self):
+        return self._decoded.get('iss')
+
+    @property
+    def subject(self):
+        return self._decoded.get('sub')
+
+    @property
+    def audience(self):
+        return self._decoded.get('aud')
+
+    @property
+    def expiration_time(self):
+        ts = self._decoded.get('exp')
+        if ts is None:
+            return
+        return dt.datetime.fromtimestamp(ts, dt.timezone.utc)
+
+    @property
+    def expires_at(self):
+        return self.expiration_time
+
+    @property
+    def not_before(self):
+        ts = self._decoded.get('nbf')
+        if ts is None:
+            return
+        return dt.datetime.fromtimestamp(ts, dt.timezone.utc)
+
+    @property
+    def issued_at(self):
+        ts = self._decoded.get('iat')
+        if ts is None:
+            return
+        return dt.datetime.fromtimestamp(ts, dt.timezone.utc)
 
 
 class Decoder:
@@ -46,7 +110,7 @@ class Decoder:
         if verify_audience and decoded_token['aud'] not in self._allowed_audiences:
             raise exceptions.TokenError('`aud` claim is not in allowed_audiences')
 
-        return decoded_token
+        return Token(token, decoded_token)
 
     def decode(self, token):
         return self._decode(token)
