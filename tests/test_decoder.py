@@ -16,6 +16,7 @@ def make_jwt(audience=None):
     now = dt.datetime.utcnow()
     claims = {
         'aud': audience or 'test_audience',
+        'nbf': now,
         'iat': now,
         'exp': now + dt.timedelta(minutes=1),
         'iss': 'https://example.auth0.com/',
@@ -74,6 +75,7 @@ class DecoderTest(TestCase):
 
         now = since_epoch()
         self.assertGreaterEqual(now, decoded_token['iat'])
+        self.assertGreaterEqual(now, decoded_token['nbf'])
         self.assertGreater(decoded_token['exp'], now)
 
     def test_decode_header_bad_header(self):
@@ -112,3 +114,19 @@ class DecoderTest(TestCase):
         decoder.decode_header('bearer test')
         args, kwargs = decoder.decode.call_args
         self.assertEqual(args[0], 'test')
+
+    def test_decode_with_token_class(self):
+        raw_jwt = make_jwt()
+
+        decoder = tokens.Decoder(certificate=keys.CERTIFICATE, allowed_audiences={'test_audience'})
+        token = decoder.decode(raw_jwt)
+
+        self.assertEqual(token.raw, raw_jwt)
+        self.assertEqual(token.audience, 'test_audience')
+        self.assertEqual(token.issuer, 'https://example.auth0.com/')
+        self.assertEqual(token.subject, 'abc123|test@example.com')
+
+        now = dt.datetime.now(dt.timezone.utc)
+        self.assertGreaterEqual(now, token.issued_at)
+        self.assertGreaterEqual(now, token.not_before)
+        self.assertGreater(token.expires_at, now)
