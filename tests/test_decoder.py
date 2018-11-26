@@ -129,5 +129,4 @@ class DecoderTest(TestCase):
         now = dt.datetime.now(dt.timezone.utc)
         self.assertGreaterEqual(now, token.issued_at)
         self.assertGreaterEqual(now, token.not_before)
-        self.assertGreater(token.expiration_time, now)
         self.assertGreater(token.expires_at, now)

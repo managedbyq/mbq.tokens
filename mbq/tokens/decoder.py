@@ -13,8 +13,9 @@ class Token:
     Convenience class for easy access to the fields of a JWT.
 
     All properties use the full name of the claims specified by the
-    JWT RFC[1]. Additionally, `expires_at` is exposed as an alias to
-    `expiration_time` for consistency.
+    JWT RFC[1] except for `expires_at` which was changed from
+    `expiration_time` to avoid implying that the return value is
+    anything other than a datetime.
 
     The `dict` read-only interface (`__getitem__` and `get`) are
     provided for backwards-compatibility only; new code should use
@@ -45,15 +46,11 @@ class Token:
         return self._decoded.get('aud')
 
     @property
-    def expiration_time(self):
+    def expires_at(self):
         ts = self._decoded.get('exp')
         if ts is None:
             return
         return dt.datetime.fromtimestamp(ts, dt.timezone.utc)
-
-    @property
-    def expires_at(self):
-        return self.expiration_time
 
     @property
     def not_before(self):
