@@ -7,11 +7,6 @@ python:
   - '3.7'
 cache: pip
 
-matrix:
-  allow_failures:
-    - python: 3.7-dev
-    - python: pypy3
-
 install:
   - travis_retry pip install --upgrade pip setuptools wheel twine isort flake8 flake8-isort
   - pip install .
