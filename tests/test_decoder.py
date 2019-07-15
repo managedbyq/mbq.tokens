@@ -3,6 +3,7 @@ import datetime as dt
 from unittest import TestCase
 
 import jwt
+
 from mbq import tokens
 from tests import keys
 from tests.compat import mock

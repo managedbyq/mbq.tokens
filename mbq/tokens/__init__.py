@@ -1,5 +1,3 @@
-from .decoder import Decoder
-from .exceptions import TokenError  # noqa
 from .__version__ import (  # noqa
     __author__,
     __author_email__,
@@ -9,6 +7,8 @@ from .__version__ import (  # noqa
     __url__,
     __version__,
 )
+from .decoder import Decoder
+from .exceptions import TokenError  # noqa
 
 
 def init(certificate=None, allowed_audiences=None):

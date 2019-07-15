@@ -36,10 +36,11 @@ setuptools.setup(
         'Topic :: Software Development :: Libraries',
     ],
     keywords='jwt token authorization',
+    package_data={"mbq.tokens": ["py.typed"]},
     packages=setuptools.find_packages(),
     install_requires=[
         'cryptography>=2.3,<3.0.0',
         'pyjwt>=1.6.4,<2.0.0',
     ],
-    zip_safe=True,
+    zip_safe=False,
 )
